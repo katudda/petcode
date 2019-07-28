@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8"/>
+    <title>Cadastro de usuário</title>
+</head>
+
+<body>
+    <h1> Cadastro de usuário</h1>
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Salvar</button>
+    </form>
+</body>
+
+</html>
