@@ -24,3 +24,4 @@ def new_pet(request):
         return list_pet(request)
     data['form'] = form
     return render(request, 'pet/form.html', data)
+
