@@ -13,6 +13,9 @@
         {{ form.as_p }}
 
         <button type="submit">Adicionar</button>
+        {% if pet %}
+            <a href="{% url 'delete_pet' pet.id %}">Remover</a>
+        {% endif %}
     </form>
 </body>
 
