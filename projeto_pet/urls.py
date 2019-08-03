@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('pets/', include('pets.urls')),
     path('', list_user),
-    path('new/', new_user, name='create_user'),
+    path('cadastro/', new_user, name='create_user'),
     path('users/', home),
 # Adicionando bibliotecas para exibição de midias
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

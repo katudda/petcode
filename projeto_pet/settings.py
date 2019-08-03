@@ -83,8 +83,8 @@ DATABASES = {
         'NAME': 'petcode',
         'USER': 'postgres',
         'PASSWORD': 'secret',
-        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
-        'PORT': '5432'
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': ''
     }
 }
 

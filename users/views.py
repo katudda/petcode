@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User
 from .form import UserForm
+# from django.urls import reverse_lazy
 
 import datetime
 
