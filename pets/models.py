@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from gallery.models import Album
+from users.models import User
 # from django.core.files.storage import FileSystemStorage
 
 # fs = FileSystemStorage(location='/media/photos')
@@ -28,6 +29,7 @@ class Category(models.Model):
         return self.name     
 
 class Pet(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200)
     pet_type = models.CharField(max_length=200)
     size = models.ForeignKey(Size, on_delete=models.CASCADE)

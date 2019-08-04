@@ -1,9 +1,9 @@
 import json
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.forms.models import model_to_dict 
+from django.forms.models import model_to_dict, modelform_factory
 from django.http import JsonResponse
-from .models import Pet
+from .models import Pet, Size, Gender, Category
 from .form import PetForm
 
 
@@ -32,16 +32,52 @@ def list_pet(request):
 
     return JsonResponse(all_objects, safe=False)
 
+def size(request):
+    all_objects = []
+    for siz in Size.objects.all():
+        _pet = model_to_dict(siz)
+        all_objects.append(_pet)
+
+    return JsonResponse(all_objects, safe=False)
+
+def gender(request):
+    all_objects = []
+    for gen in Gender.objects.all():
+        _pet = model_to_dict(gen)
+        all_objects.append(_pet)
+
+    return JsonResponse(all_objects, safe=False)   
+
+def category(request):
+    all_objects = []
+    for cat in Category.objects.all():
+        _pet = model_to_dict(cat)
+        all_objects.append(_pet)
+
+    return JsonResponse(all_objects, safe=False)
 
 def new_pet(request):
-    data = {}
-    form = PetForm(request.POST or None)
+    # Verifica se é uma requisição POST
+    if request.method == 'POST':
+        # Obtem o json do corpo da requisição
+        data = json.loads(request.body)
 
-    if form.is_valid():
-        form.save()
-        return list_pet(request)
-    data['form'] = form
-    return render(request, 'pet/form.html', data)
+        # Cria um formulário para o pet
+        form = modelform_factory(Pet, fields=('name', 'category', 'size', 'gender', 'category'))
+        # Popula os campos do formulário com os dados do json
+        populated_form = form(data=data)
+
+        # Valida o formulário
+        if populated_form.is_valid():
+            # Salva o registro na base de dados
+            saved = populated_form.save()
+
+            # Responde a requisição com os dados do pet recem cadastrado
+            return JsonResponse(model_to_dict(saved), safe=False)
+
+    # Caso contrário responde a requisição com erro
+    return JsonResponse({'status': 'error'}, safe=False, status=400)
+    
 
 def update_pet(request, pk):
     pet = Pet.objects.get(pk=pk)
