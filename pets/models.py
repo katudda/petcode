@@ -36,7 +36,6 @@ class Pet(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
     state = models.CharField(max_length=1024, null=False)
     city = models.CharField(max_length=1024, null=False)
-    neighborhood = models.CharField(max_length=1024, null=True, blank=True)
     contact_name = models.CharField(max_length=100, null=False)
     phone_1 = models.CharField(max_length=12, null=True, blank=True)
     phone_2 = models.CharField(max_length=12, null=True, blank=True)

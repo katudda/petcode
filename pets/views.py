@@ -98,7 +98,6 @@ def new_pet(request):
             'album' , 
             'city', 
             'state',
-            'neighborhood',
             'description',
             'contact_name',
             'phone_1',
