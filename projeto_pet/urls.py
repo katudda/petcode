@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from users.views import home, list_user, new_user
+from users.views import home, new_user
 # Adicionando bibliotecas para exibição de midias
 from django.conf import settings
 from django.conf.urls.static import static
@@ -23,7 +23,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pets/', include('pets.urls')),
-    path('', list_user),
     path('new/', new_user, name='create_user'),
     path('users/', home),
 # Adicionando bibliotecas para exibição de midias

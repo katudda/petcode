@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
+    
 <head>
-    <meta charset="utf-8"/>
-    <title>HTML5 – Estrutura básica</title>
+    <title>Home</title>
 </head>
-
+    
 <body>
-    <h1>Olá</h1>
+    {% if user.is_authenticated %}
+    <p>hello</p>
+    <p>welcome {{ user.username }}</p>
+    <p><a href="/logout">Logout</a></p>
+    {% else %}
+    <p><a href="/login">Login</a></p>
+    <p><a href="/register">Register</a></p>
+    {% endif %}
 </body>
-
+    
 </html>
