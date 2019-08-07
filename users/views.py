@@ -1,17 +1,23 @@
+import json
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django import forms
 from .forms import UserRegistrationForm
+from django.views.decorators.csrf import csrf_exempt
 
 def home(request):
     return render(request, 'users/home.html')
-    
+
+@csrf_exempt
 def new_user(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
+        body = json.loads(request.body)
+        form = UserRegistrationForm(body)
+        try:
+            form.is_valid()
             userObj = form.cleaned_data
             username = userObj['username']
             email =  userObj['email']
@@ -26,10 +32,14 @@ def new_user(request):
                 User.objects.create_user(username, email, password=password2, first_name=first_name, last_name=last_name)
                 user = authenticate(username = username, password = password2)
                 login(request, user)
-                return HttpResponseRedirect('/users')    
+                return JsonResponse({'success': True, 'message': 'Cadastro realizado com sucesso'})    
             else:
-                raise forms.ValidationError('Looks like a username with that email or password already exists')
-                
+                return JsonResponse({'success': False, 'message': 'Username ou e-mail já estão sendo usados.'})
+        except:
+            print(form.errors)
+            return JsonResponse({'success': False, 'message': 'Cadastro inválido'})
+
+    # TODO rever esse fluxo quando o metodo nao for POST        
     else:
         form = UserRegistrationForm()
         
