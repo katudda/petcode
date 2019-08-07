@@ -22,10 +22,12 @@ class UserRegistrationForm(forms.Form):
         widget=forms.PasswordInput
     )
     first_name = forms.CharField(
+        required=False,
         label = 'First Name',
         max_length = 30,
     )
     last_name = forms.CharField(
+        required=False,
         label = 'Last Name',
         max_length = 30,
     )
