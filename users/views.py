@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout as logout_view
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django import forms
@@ -66,3 +66,7 @@ def auth_login(request):
     
     else:
         return JsonResponse({'success': False, 'message': 'Should use the verb POST for your resquest'})
+
+
+def logout(request):
+    logout_view(request)
