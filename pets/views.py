@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.forms.models import model_to_dict, modelform_factory
 from django.http import JsonResponse
-from .models import Pet, Size, Gender, Category
+from .models import Pet, PetType, Size, Gender, Category, CategoryStatus
 from gallery.models import Album, Image
 from gallery.forms import ImageCreateForm
 from .form import PetForm
@@ -39,14 +39,46 @@ def list_pet(request):
         _pet['category'] = model_to_dict(pet.category)
         _pet['gender'] = model_to_dict(pet.gender)
         _pet['size'] = model_to_dict(pet.size)
+        _pet['pet_type'] = model_to_dict(pet.pet_type)
         _pet['published_date'] = pet.published_date
 
         if pet.album:
             if pet.album.images:
                 images = [img for img in pet.album.images.all()]
                 for image in images:
-                    _pet['images'].append(image.data_thumbnail.url)
+                    _pet['images'].append({'id': image.id, 'url': image.data_thumbnail.url})
         del(_pet['album'])
+        all_objects.append(_pet)
+
+    return JsonResponse(all_objects, safe=False)
+
+def new_pet_type(request):
+    if request.method == 'POST':
+        # Obtem o json do corpo da requisição
+        data = json.loads(request.body)
+
+        form = modelform_factory(PetType, fields=('name',))
+        # Popula os campos do formulário com os dados do json
+        populated_form = form(data=data)
+
+        # Valida o formulário
+        if populated_form.is_valid():
+            # Salva o registro na base de dados
+            pet = saved = populated_form.save()
+
+            # Responde a requisição com os dados do pet recem cadastrado
+            return JsonResponse(model_to_dict(saved), safe=False)
+        else:
+            return JsonResponse({'status': 'error', 'message': populated_form.errors}, safe=False, status=400)
+
+    # Caso contrário responde a requisição com erro
+    return JsonResponse({'status': 'error'}, safe=False, status=400)
+    
+
+def pet_type(request):
+    all_objects = []
+    for pet in PetType.objects.all():
+        _pet = model_to_dict(pet)
         all_objects.append(_pet)
 
     return JsonResponse(all_objects, safe=False)
@@ -71,6 +103,14 @@ def category(request):
     all_objects = []
     for cat in Category.objects.all():
         _pet = model_to_dict(cat)
+        all_objects.append(_pet)
+
+    return JsonResponse(all_objects, safe=False)
+
+def category_status(request):
+    all_objects = []
+    for status in CategoryStatus.objects.all():
+        _pet = model_to_dict(status)
         all_objects.append(_pet)
 
     return JsonResponse(all_objects, safe=False)
@@ -162,8 +202,26 @@ def upload_pet_image(request, pk):
     # Informa que o metodo é inválido
     return JsonResponse({'status': 'error'}, safe=False, status=405)
 
+def delete_pet_image(request, pk):
+    if request.method == 'POST':
+        image = Image.objects.get(pk=pk)
+        image.delete()
+        return JsonResponse({'status': 'success', 'message': 'Image pet deleted'}, safe=False) 
+    return JsonResponse({'status': 'error'}, safe=False, status=405)
+
 def delete_pet(request, pk):
-    pet = Pet.objects.get(pk=pk)
-    form = PetForm(request.POST or None, instance=pet)
-    pet.delete()
-    return list_pet(request)
+    if request.method == 'POST':
+
+        pet = Pet.objects.get(pk=pk)
+
+        if pet.album:
+            if pet.album.images:
+                images = [img for img in pet.album.images.all()]
+                for image in images:
+                    image.delete()
+        
+        pet.delete()
+        return JsonResponse({'status': 'success', 'message': 'Pet deleted'}, safe=False)    
+
+    # Informa que o metodo é inválido
+    return JsonResponse({'status': 'error'}, safe=False, status=405)
