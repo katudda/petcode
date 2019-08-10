@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from users.views import home, new_user
+from users.views import home, new_user, auth_login, logout
 # Adicionando bibliotecas para exibição de midias
 from django.conf import settings
 from django.conf.urls.static import static
@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('pets/', include('pets.urls')),
     path('new/', new_user, name='create_user'),
+    path('login/', auth_login),
+    path('logout/', logout),
     path('users/', home),
 # Adicionando bibliotecas para exibição de midias
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
