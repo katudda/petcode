@@ -8,5 +8,8 @@ urlpatterns = [
     path('update_pet/<int:pk>/', views.update_pet, name='update_pet'),
     path('delete_pet/<int:pk>/', views.delete_pet, name='delete_pet'),
     path('pets/', views.home),
+    path('size/', views.size),
+    path('gender/', views.gender),
+    path('category/', views.category),
     path('gallery/', include('gallery.urls')),
 ]
