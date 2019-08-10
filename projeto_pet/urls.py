@@ -27,5 +27,6 @@ urlpatterns = [
     path('login/', auth_login),
     path('logout/', logout),
     path('users/', home),
+    url(r'^api-auth/', include('rest_framework.urls')),
 # Adicionando bibliotecas para exibição de midias
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

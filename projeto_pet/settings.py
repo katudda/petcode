@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'gallery',
     'users',
     'pets',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
