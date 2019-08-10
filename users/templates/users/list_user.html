@@ -7,11 +7,11 @@
 
 <body>
     <h2>Listagem</h2>
-    <ul>
     {% for user in users %}
-        <li>{{ user.first_name }} </li>
-    {% endfor %}    
+    <ul>
+        <li>{{ user.first_name }} </li>     
     </ul>
+    {% endfor %} 
 
     <a href="{% url 'create_user' %}">New</a>
     

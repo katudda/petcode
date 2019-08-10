@@ -12,8 +12,6 @@ class PetForm(ModelForm):
             'category', 
             'city', 
             'state', 
-            'neighborhood', 
-            'zipcode', 
             'description',
             'contact_name',
             'phone_1',

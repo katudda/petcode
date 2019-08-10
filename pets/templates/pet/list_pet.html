@@ -2,16 +2,31 @@
 <html lang="pt-br">
 <head>
     <meta charset="utf-8"/>
-    <title>Cadastro de usuário</title>
+    <title>Listagem de pets</title>
 </head>
 
 <body>
     <h2>Listagem</h2>
-    <ul>
     {% for pet in pets %}
-        <li>{{ pet.name }} </li>
-    {% endfor %}    
+    <ul>
+        <a href="{% url 'update_pet' pet.id %}">
+            
+            {% comment %} {% for album in pet.albuns %}
+                {% for image in album %}
+                <li><img id="image_empty_{{ image.pk }}"
+             class="image image_spacer"
+             alt="{{ image.title }}"
+             data-src="{{ image.data_thumbnail.url }}"
+             style="width: {% widthratio image.data_thumbnail.width 2 1 %}px";/></li>
+                {% endfor %}
+            {% endfor %} {% endcomment %}
+            <li>{{ pet.name }} </li>
+            <li>{{ pet.state }}</li>
+            <li>{{ pet.city }}</li>
+            <li>{{ pet.category }}</li>
+        </a>
     </ul>
+    {% endfor %}    
 
     <a href="{% url 'create_pet' %}">Cadastrar novo Pet</a>
     

@@ -3,3 +3,7 @@
 venv
 media/*
 !media/.gitkeep
+*.log
+*.pot
+*.pyc
+__pycache__
