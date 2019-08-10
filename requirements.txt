@@ -10,13 +10,9 @@ django-starcross-gallery==1.0.6
 django-zip-code-api==1.4.2
 idna==2.8
 libmagic==1.0
-mysqlclient==1.4.2.post1
 pilkit==2.0
 Pillow==5.0.0
 psycopg2-binary==2.8.3
-PyMySQL==0.9.3
-python-magic==0.4.15
-python-magic-bin==0.4.14
 pytz==2019.1
 regex==2019.6.8
 requests==2.22.0

@@ -4,12 +4,15 @@ from . import views
 
 urlpatterns = [
     path('', views.list_pet),
-    path('new/', views.new_pet, name='create_pet'),
-    path('update_pet/<int:pk>/', views.update_pet, name='update_pet'),
-    path('delete_pet/<int:pk>/', views.delete_pet, name='delete_pet'),
+    path('new/', views.new_pet),
+    path('pet-type/new/', views.new_pet_type),
+    path('update-pet/<int:pk>/', views.update_pet),
+    path('<int:pk>/image/upload', views.upload_pet_image),
+    path('delete-pet/<int:pk>/', views.delete_pet),
+    path('delete-pet-image/<int:pk>/', views.delete_pet_image),
     path('pets/', views.home),
-    path('size/', views.size),
-    path('gender/', views.gender),
-    path('category/', views.category),
-    path('gallery/', include('gallery.urls')),
+    path('sizes/', views.size),
+    path('genders/', views.gender),
+    path('categories/', views.category),
+    # path('gallery/', include('gallery.urls')),
 ]
