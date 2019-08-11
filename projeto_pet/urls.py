@@ -15,22 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from users.views import home, new_user, auth_login, logout
 # Adicionando bibliotecas para exibição de midias
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
+from users import views
 
 router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('pets/', include('pets.urls')),
-    path('new/', new_user, name='create_user'),
-    path('login/', auth_login),
-    path('logout/', logout),
-    path('users/', home),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 # Adicionando bibliotecas para exibição de midias
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
