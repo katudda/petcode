@@ -56,8 +56,10 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
   'DEFAULT_AUTHENTICATION_CLASSES': (
-      'rest_framework.authentication.TokenAuthentication',
-    )
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', )
 }
 
 ROOT_URLCONF = 'projeto_pet.urls'
@@ -145,3 +147,5 @@ MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 MEDIA_URL='/media/'
 
 GALLERY_FOOTER_INFO="Pet Gallery"
+
+LOGIN_REDIRECT_URL = '/login'

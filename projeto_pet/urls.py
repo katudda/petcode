@@ -28,6 +28,8 @@ urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('pets/', include('pets.urls')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    # path('users/', include('users.urls')),
+    path('login/', views.UserViewSet.login),
+    # path('edit/', views.sample_api)
 # Adicionando bibliotecas para exibição de midias
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
