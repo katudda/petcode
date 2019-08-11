@@ -18,18 +18,12 @@ from django.urls import include, path
 # Adicionando bibliotecas para exibição de midias
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework import routers
 from users import views
 
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-
 urlpatterns = [
-    path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('pets/', include('pets.urls')),
-    # path('users/', include('users.urls')),
+    path('users/', include('users.urls')),
     path('login/', views.UserViewSet.login),
-    # path('edit/', views.sample_api)
 # Adicionando bibliotecas para exibição de midias
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
