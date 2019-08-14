@@ -38,7 +38,7 @@ class Category(models.Model):
 
 class CategoryStatus(models.Model):
     name = models.CharField(max_length=100)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Category Status'
@@ -65,7 +65,7 @@ class CategoryForm(forms.ModelForm):
     def save(self, *args, **kwargs):
         instance = super(CategoryForm, self).save(commit=False)
         self.fields['category_status'].initial.update(category=None)
-        self.cleaned_data['category_status'].update(category=instance)
+        self.cleaned_data['category_status'].update(category=instance.id)
         return instance
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -73,9 +73,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class Pet(models.Model):
-    data = models.ImageField(upload_to='images')
     image = models.ImageField(upload_to='images', null=True)
-    data_thumbnail = ImageSpecField(source='data',
+    data_thumbnail = ImageSpecField(source='image',
                                     processors=[ResizeToFit(
                                         height=200)],
                                     format='JPEG',

@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework import viewsets, permissions
 from rest_framework import viewsets
+from url_filter.integrations.drf import DjangoFilterBackend
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
@@ -47,12 +48,17 @@ class PublicRetrieveAndListOnly(permissions.IsAuthenticated):
     Custom permission to only allow owners of an object to edit it.
     """
     def has_permission(self, request, view):
-        return True if view.action in ['list', 'retrieve'] else False
+        if view.action in ['list', 'retrieve']:
+            return True
+        else:
+            return bool(request.user and request.user.is_authenticated)
 
 class PetViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
     permission_classes = [PublicRetrieveAndListOnly]
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['category', 'user', 'name', 'gender', 'size', 'state', 'city', 'published_date']
 
 
 class UserViewSet(viewsets.ModelViewSet):
