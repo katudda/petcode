@@ -1,5 +1,11 @@
 .DS_Store
 .vscode
+env
 venv
 media/*
 !media/.gitkeep
+*.log
+*.pot
+*.pyc
+__pycache__
+*/__pycache__
