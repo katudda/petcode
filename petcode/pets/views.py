@@ -16,9 +16,34 @@ from petcode.pets.models import PetType, Size, Gender, CategoryStatus, Category,
 from petcode.pets.serializers import UserSerializer, PetTypeSerializer, SizeSerializer, GenderSerializer, CategoryStatusSerializer, CategorySerializer, PetSerializer
 from django.views.decorators.csrf import csrf_exempt
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+############################################################################
+# Permissoes customizadas
+############################################################################
+class PublicRetrieveAndListOnly(permissions.IsAuthenticated):
+    """
+    Custom permission to only allow list and retrieve without authorization
+    """
+    def has_permission(self, request, view):
+        if view.action in ['list', 'retrieve']:
+            return True
+        else:
+            return bool(request.user and request.user.is_authenticated)
+
+
+class PublicCreateOnly(permissions.IsAuthenticated):
+    """
+    Custom permission to only allow create without authorization
+    """
+    def has_permission(self, request, view):
+        if view.action in ['create',]:
+            return True
+        else:
+            return bool(request.user and request.user.is_authenticated)
+
+############################################################################
+# FIM Permissoes customizadas
+############################################################################
+
 
 
 class PetTypeViewSet(viewsets.ModelViewSet):
@@ -42,17 +67,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-
-class PublicRetrieveAndListOnly(permissions.IsAuthenticated):
-    """
-    Custom permission to only allow owners of an object to edit it.
-    """
-    def has_permission(self, request, view):
-        if view.action in ['list', 'retrieve']:
-            return True
-        else:
-            return bool(request.user and request.user.is_authenticated)
-
 class PetViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
@@ -67,12 +81,10 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
+    permission_classes = [PublicCreateOnly]
 
-
-    @csrf_exempt
-    @api_view(["POST"])
-    @permission_classes((AllowAny,))
-    def login(request):
+    @action(detail=False, methods=['post'], permission_classes=[AllowAny])
+    def login(self, request):
         print('Mahoy')
         username = request.data.get("username")
         password = request.data.get("password")
