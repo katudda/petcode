@@ -1,8 +1,11 @@
+cached-property==1.5.1
 Django==2.2.4
 django-appconf==1.0.3
 django-imagekit==4.0.2
 django-starcross-gallery==1.0.6
+django-url-filter==0.3.13
 djangorestframework==3.10.2
+enum-compat==0.0.2
 pilkit==2.0
 Pillow==5.0.0
 psycopg2-binary==2.8.3
