@@ -27,12 +27,12 @@ class GenderSerializer(serializers.HyperlinkedModelSerializer):
 class CategoryStatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CategoryStatus
-        fields = ['url', 'name']
+        fields = ['url', 'name', 'category']
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = ['url', 'name', 'status']
+        fields = ['url', 'name']
 
 class PetSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
