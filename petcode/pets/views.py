@@ -59,13 +59,13 @@ class GenderViewSet(viewsets.ModelViewSet):
     queryset = Gender.objects.all()
     serializer_class = GenderSerializer
 
-class CategoryStatusViewSet(viewsets.ModelViewSet):
-    queryset = CategoryStatus.objects.all()
-    serializer_class = CategoryStatusSerializer
-
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    
+class CategoryStatusViewSet(viewsets.ModelViewSet):
+    queryset = CategoryStatus.objects.all()
+    serializer_class = CategoryStatusSerializer
 
 class PetViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.all()
@@ -85,7 +85,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], permission_classes=[AllowAny])
     def login(self, request):
-        print('Mahoy')
         username = request.data.get("username")
         password = request.data.get("password")
         if username is None or password is None:

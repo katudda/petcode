@@ -86,6 +86,7 @@ class Pet(models.Model):
     size = models.ForeignKey(Size, on_delete=models.CASCADE, null=False)
     gender = models.ForeignKey(Gender, on_delete=models.CASCADE, null=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
+    category_status = models.ForeignKey(CategoryStatus, on_delete=models.CASCADE, null=True, blank=True)
     state = models.CharField(max_length=1024, null=False)
     city = models.CharField(max_length=1024, null=False)
     contact_name = models.CharField(max_length=100, null=False)
