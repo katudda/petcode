@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Privados - Precisa passar Token ( API )
-    path('api/', include(router.urls)),
+    path('api/', include((router.urls, 'api'), namespace='instance_name')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
