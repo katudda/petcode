@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from rest_framework import viewsets, permissions
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions, status
 from url_filter.integrations.drf import DjangoFilterBackend
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -13,8 +12,10 @@ from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from petcode.pets.models import PetType, Size, Gender, CategoryStatus, Category, Pet
-from petcode.pets.serializers import UserSerializer, PetTypeSerializer, SizeSerializer, GenderSerializer, CategoryStatusSerializer, CategorySerializer, PetSerializer
+from petcode.pets.serializers import ImageSerializer, UserSerializer, PetTypeSerializer, SizeSerializer, GenderSerializer, CategoryStatusSerializer, CategorySerializer, PetSerializer
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
+from rest_framework.parsers import FileUploadParser
 
 ############################################################################
 # Permissoes customizadas
@@ -74,7 +75,7 @@ class PetViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['category', 'user', 'name', 'gender', 'size', 'state', 'city', 'published_date']
 
-    
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -100,3 +101,17 @@ class UserViewSet(viewsets.ModelViewSet):
         response['token'] = token.key
         return Response(response,
                         status=HTTP_200_OK)
+
+class ImageUploadView(APIView):
+    parser_class = (FileUploadParser,)
+
+    def post(self, request, pk=False, *args, **kwargs):
+        pet = Pet.objects.get(pk=pk)
+        file_serializer = ImageSerializer(data=request.data)
+
+        if file_serializer.is_valid():
+            file_serializer.save()
+            pet.images.add(file_serializer.data['id'])
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

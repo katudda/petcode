@@ -23,4 +23,5 @@ urlpatterns = [
 
     # Privados - Precisa passar Token ( API )
     path('api/', include((router.urls, 'api'), namespace='instance_name')),
+    path('api/pet/<int:pk>/image-upload', views.ImageUploadView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
