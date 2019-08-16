@@ -19,7 +19,6 @@ router.register(r'pet-images', views.ImageViewSet)
 
 urlpatterns = [
     # Público - Não precisa passar Token
-    path('api/login/', views.UserViewSet.login),
     path('admin/', admin.site.urls),
 
     # Privados - Precisa passar Token ( API )
