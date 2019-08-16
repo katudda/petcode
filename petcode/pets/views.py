@@ -11,7 +11,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from petcode.pets.models import PetType, Size, Gender, CategoryStatus, Category, Pet
+from petcode.pets.models import PetType, Size, Gender, CategoryStatus, Category, Pet, Image
 from petcode.pets.serializers import ImageSerializer, UserSerializer, PetTypeSerializer, SizeSerializer, GenderSerializer, CategoryStatusSerializer, CategorySerializer, PetSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
@@ -67,6 +67,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class CategoryStatusViewSet(viewsets.ModelViewSet):
     queryset = CategoryStatus.objects.all()
     serializer_class = CategoryStatusSerializer
+
+class ImageViewSet(viewsets.ModelViewSet):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
 
 class PetViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.all()
