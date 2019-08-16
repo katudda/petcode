@@ -74,7 +74,7 @@ class PetViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['category', 'user', 'name', 'gender', 'size', 'state', 'city', 'published_date']
 
-
+    
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.

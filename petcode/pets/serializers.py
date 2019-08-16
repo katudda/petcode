@@ -1,46 +1,53 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from petcode.pets.models import Pet, PetType, Size, Gender, CategoryStatus, Category 
+from petcode.pets.models import Pet, PetType, Size, Gender, CategoryStatus, Category, Image
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'username', 'email']
+        fields = ['id', 'username', 'email']
 
-class PetTypeSerializer(serializers.HyperlinkedModelSerializer):
+class PetTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PetType
-        fields = ['url', 'name']
+        fields = ['id', 'name']
 
 
-class SizeSerializer(serializers.HyperlinkedModelSerializer):
+class SizeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Size
-        fields = ['url', 'name']
+        fields = ['id', 'name']
 
-class GenderSerializer(serializers.HyperlinkedModelSerializer):
+class GenderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gender
-        fields = ['url', 'name']
+        fields = ['id', 'name']
 
-class CategoryStatusSerializer(serializers.HyperlinkedModelSerializer):
+class CategoryStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryStatus
-        fields = ['url', 'name', 'category']
+        fields = ['id', 'name', 'category']
 
-class CategorySerializer(serializers.HyperlinkedModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['url', 'name']
+        fields = ['id', 'name']
 
-class PetSerializer(serializers.HyperlinkedModelSerializer):
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ['image',]
+
+class PetSerializer(serializers.ModelSerializer):
+    images = ImageSerializer(read_only=True, many=True)
+
     class Meta:
         model = Pet
         fields = [
-            'url', 
+            'id', 
+            'images', 
             'user', 
-            'image', 
             'name', 
             'description', 
             'pet_type', 
