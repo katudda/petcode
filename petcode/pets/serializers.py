@@ -40,14 +40,14 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ['image',]
 
 class PetSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True)
+    images = ImageSerializer(read_only=True, many=True)
 
     class Meta:
         model = Pet
         fields = [
             'id', 
-            'user', 
             'images', 
+            'user', 
             'name', 
             'description', 
             'pet_type', 
@@ -63,7 +63,6 @@ class PetSerializer(serializers.ModelSerializer):
             'email',
             'published_date'
         ]
-
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(

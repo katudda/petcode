@@ -72,7 +72,7 @@ class CategoryAdmin(admin.ModelAdmin):
     form = CategoryForm
 
 class Image(models.Model):
-    image = models.ImageField(upload_to='images', null=True)
+    image = models.ImageField(upload_to='images', blank=True)
     data_thumbnail = ImageSpecField(source='image',
                                     processors=[ResizeToFit(
                                         height=200)],
@@ -82,7 +82,7 @@ class Image(models.Model):
 
 class Pet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    images = models.ManyToManyField(Image, null=True, blank=True)
+    images = models.ManyToManyField(Image, blank=True)
     name = models.CharField(max_length=200, null=False)
     description = models.TextField(null=True, blank=True)
     pet_type = models.ForeignKey(PetType, on_delete=models.CASCADE, null=False)
