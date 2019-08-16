@@ -1,1 +1,1 @@
-web: gunicorn petcode.wsgi --log-file -
+web: gunicorn petcode.wsgi -b 0.0.0.0:$PORT -w 10
