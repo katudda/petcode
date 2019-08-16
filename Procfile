@@ -1,1 +1,1 @@
-web: gunicorn petcode.wsgi -b 0.0.0.0:$PORT -w 10
+web: python manage.py runserver 0.0.0.0:$PORT --noreload
