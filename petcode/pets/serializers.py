@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from petcode.pets.models import Pet, PetType, Size, Gender, CategoryStatus, Category, Image
+# from petcode.pets.models import Pet, PetType, Size, Gender, CategoryStatus, Category, Image
+from petcode.pets.models import Pet, PetType, CategoryStatus, Category, Image
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,15 +15,15 @@ class PetTypeSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
-class SizeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Size
-        fields = ['id', 'name']
+# class SizeSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Size
+#         fields = ['id', 'name']
 
-class GenderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Gender
-        fields = ['id', 'name']
+# class GenderSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Gender
+#         fields = ['id', 'name']
 
 class CategoryStatusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,7 +42,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 class PetSerializer(serializers.ModelSerializer):
     images = ImageSerializer(read_only=True, many=True)
-    category = CategorySerializer()
+    # category = CategorySerializer()
 
     class Meta:
         model = Pet
