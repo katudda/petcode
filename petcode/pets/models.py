@@ -49,30 +49,30 @@ class CategoryStatus(models.Model):
     def __str__(self):
         return self.name 
 
-# class CategoryForm(forms.ModelForm):
-#     category_status = forms.ModelMultipleChoiceField(
-#                        widget = forms.CheckboxSelectMultiple,
-#                        queryset = CategoryStatus.objects.all()
-#                )
-#     class Meta:
-#         model = CategoryStatus
-#         fields = '__all__'
+class CategoryForm(forms.ModelForm):
+    category_status = forms.ModelMultipleChoiceField(
+                       widget = forms.CheckboxSelectMultiple,
+                       queryset = CategoryStatus.objects.all()
+               )
+    class Meta:
+        model = CategoryStatus
+        fields = '__all__'
 
 
-    # def __init__(self, *args, **kwargs):
-    #     super(CategoryForm, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(CategoryForm, self).__init__(*args, **kwargs)
         
-    #     if self.instance:
-    #         self.fields['category_status'].initial = CategoryStatus.objects.all().filter(category=self.instance.id)
+        if self.instance:
+            self.fields['category_status'].initial = CategoryStatus.objects.all().filter(category=self.instance.id)
 
-    # def save(self, *args, **kwargs):
-    #     instance = super(CategoryForm, self).save(commit=False)
-    #     self.fields['category_status'].initial.update(category=None)
-    #     self.cleaned_data['category_status'].update(category=instance.id)
-    #     return instance
+    def save(self, *args, **kwargs):
+        instance = super(CategoryForm, self).save(commit=False)
+        self.fields['category_status'].initial.update(category=None)
+        self.cleaned_data['category_status'].update(category=instance.id)
+        return instance
 
-# class CategoryAdmin(admin.ModelAdmin):
-#     form = CategoryForm
+class CategoryAdmin(admin.ModelAdmin):
+    form = CategoryForm
 
 class Image(models.Model):
     image = models.ImageField(upload_to='images', blank=True)
