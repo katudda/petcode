@@ -41,6 +41,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 class PetSerializer(serializers.ModelSerializer):
     images = ImageSerializer(read_only=True, many=True)
+    category = CategorySerializer()
 
     class Meta:
         model = Pet

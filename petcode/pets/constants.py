@@ -1,3 +1,14 @@
+SIZE = (
+    ('p', 'Pequeno'),
+    ('m', 'Médio'),
+    ('g', 'Grande')
+)
+
+GENDER = (
+    ('m', 'Masculino'),
+    ('f', 'Feminino')
+)
+
 CATEGORIES = (
     ('ENCONTRADOS', 'ENCONTRADOS'),
     ('PROCURA_SE', 'PROCURA_SE'),
