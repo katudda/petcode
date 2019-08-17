@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
+from .constants import SIZE, GENDER, CATEGORIES, CATEGORIES_STATUS
 
 class PetType(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -13,17 +14,17 @@ class PetType(models.Model):
     def __str__(self):
         return self.name
 
-class Size(models.Model):
-    name = models.CharField(max_length=100)
+# class Size(models.Model):
+#     name = models.CharField(max_length=100)
     
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
-class Gender(models.Model):
-    name = models.CharField(max_length=100)
+# class Gender(models.Model):
+#     name = models.CharField(max_length=100)
     
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
         
 class Category(models.Model):
@@ -35,16 +36,18 @@ class Category(models.Model):
     def __str__(self):
         return self.name       
 
-
 class CategoryStatus(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(
+        max_length=100,
+        choices=CATEGORIES_STATUS
+    )
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Category Status'
     
     def __str__(self):
-        return self.name   
+        return self.name 
 
 class CategoryForm(forms.ModelForm):
     category_status = forms.ModelMultipleChoiceField(
@@ -86,10 +89,25 @@ class Pet(models.Model):
     name = models.CharField(max_length=200, null=False)
     description = models.TextField(null=True, blank=True)
     pet_type = models.ForeignKey(PetType, on_delete=models.CASCADE, null=False)
-    size = models.ForeignKey(Size, on_delete=models.CASCADE, null=False)
-    gender = models.ForeignKey(Gender, on_delete=models.CASCADE, null=False)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
-    category_status = models.ForeignKey(CategoryStatus, on_delete=models.CASCADE, null=True, blank=True)
+    size = models.CharField(
+        max_length=100,
+        choices=SIZE,
+        blank=True,
+        null=True
+    )
+    gender = models.CharField(
+        max_length=100,
+        choices=GENDER,
+        blank=True,
+        null=True
+    )
+    category = models.CharField(
+        max_length=100,
+        choices=CATEGORIES,
+        blank=True,
+        null=True
+    )
+    category_status = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     state = models.CharField(max_length=1024, null=False)
     city = models.CharField(max_length=1024, null=False)
     contact_name = models.CharField(max_length=100, null=False)
