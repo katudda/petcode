@@ -12,8 +12,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from petcode.pets.models import PetType, Size, Gender, Pet
-from petcode.pets.serializers import UserSerializer, PetTypeSerializer, SizeSerializer, GenderSerializer, PetSerializer
+from petcode.pets.models import PetType, Size, Gender, Pet, CategoryStatus, Category
+from petcode.pets.serializers import UserSerializer, PetTypeSerializer, SizeSerializer, GenderSerializer, PetSerializer, CategorySerializer, CategoryStatusSerializer
 from django.views.decorators.csrf import csrf_exempt
 
 ############################################################################
@@ -59,13 +59,13 @@ class GenderViewSet(viewsets.ModelViewSet):
     queryset = Gender.objects.all()
     serializer_class = GenderSerializer
 
-# class CategoryViewSet(viewsets.ModelViewSet):
-#     queryset = Category.objects.all()
-#     serializer_class = CategorySerializer
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
     
-# class CategoryStatusViewSet(viewsets.ModelViewSet):
-#     queryset = CategoryStatus.objects.all()
-#     serializer_class = CategoryStatusSerializer
+class CategoryStatusViewSet(viewsets.ModelViewSet):
+    queryset = CategoryStatus.objects.all()
+    serializer_class = CategoryStatusSerializer
 
 class PetViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.all()
@@ -74,7 +74,7 @@ class PetViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['category', 'user', 'name', 'gender', 'size', 'state', 'city', 'published_date']
 
-
+    
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.

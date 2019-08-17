@@ -36,6 +36,18 @@ class Category(models.Model):
     def __str__(self):
         return self.name       
 
+class CategoryStatus(models.Model):
+    name = models.CharField(
+        max_length=100,
+        choices=CATEGORIES_STATUS
+    )
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Category Status'
+    
+    def __str__(self):
+        return self.name 
 
 # class CategoryForm(forms.ModelForm):
 #     category_status = forms.ModelMultipleChoiceField(
@@ -62,15 +74,18 @@ class Category(models.Model):
 # class CategoryAdmin(admin.ModelAdmin):
 #     form = CategoryForm
 
-
-class Pet(models.Model):
-    image = models.ImageField(upload_to='images', null=True)
+class Image(models.Model):
+    image = models.ImageField(upload_to='images', blank=True)
     data_thumbnail = ImageSpecField(source='image',
                                     processors=[ResizeToFit(
                                         height=200)],
                                     format='JPEG',
                                     options={'quality': 80})
+
+
+class Pet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    images = models.ManyToManyField(Image, blank=True)
     name = models.CharField(max_length=200, null=False)
     description = models.TextField(null=True, blank=True)
     pet_type = models.ForeignKey(PetType, on_delete=models.CASCADE, null=False)
@@ -82,12 +97,7 @@ class Pet(models.Model):
         blank=True,
         null=True
     )
-    category_status = models.CharField(
-        max_length=100,
-        choices=CATEGORIES_STATUS,
-        blank=True,
-        null=True
-    )
+    category_status = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     state = models.CharField(max_length=1024, null=False)
     city = models.CharField(max_length=1024, null=False)
     contact_name = models.CharField(max_length=100, null=False)
@@ -98,7 +108,3 @@ class Pet(models.Model):
 
     def __str__(self):
         return self.name
-
-
-
-    
