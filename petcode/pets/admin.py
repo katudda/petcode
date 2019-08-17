@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Pet, PetType, Size, Gender
-# from .models import Pet, PetType, Size, Gender, CategoryStatus, Category, CategoryAdmin, Image
+from .models import Pet, PetType, Size, Gender, CategoryStatus, Category, CategoryAdmin, Image
 
 admin.site.register(Pet)
 admin.site.register(Image)
