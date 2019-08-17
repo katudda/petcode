@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
+from .constants import CATEGORIES, CATEGORIES_STATUS
 
 class PetType(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -36,40 +37,30 @@ class Category(models.Model):
         return self.name       
 
 
-class CategoryStatus(models.Model):
-    name = models.CharField(max_length=100)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
-
-    class Meta:
-        verbose_name_plural = 'Category Status'
-    
-    def __str__(self):
-        return self.name   
-
-class CategoryForm(forms.ModelForm):
-    category_status = forms.ModelMultipleChoiceField(
-                       widget = forms.CheckboxSelectMultiple,
-                       queryset = CategoryStatus.objects.all()
-               )
-    class Meta:
-        model = CategoryStatus
-        fields = '__all__'
+# class CategoryForm(forms.ModelForm):
+#     category_status = forms.ModelMultipleChoiceField(
+#                        widget = forms.CheckboxSelectMultiple,
+#                        queryset = CategoryStatus.objects.all()
+#                )
+#     class Meta:
+#         model = CategoryStatus
+#         fields = '__all__'
 
 
-    def __init__(self, *args, **kwargs):
-        super(CategoryForm, self).__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     super(CategoryForm, self).__init__(*args, **kwargs)
         
-        if self.instance:
-            self.fields['category_status'].initial = CategoryStatus.objects.all().filter(category=self.instance.id)
+    #     if self.instance:
+    #         self.fields['category_status'].initial = CategoryStatus.objects.all().filter(category=self.instance.id)
 
-    def save(self, *args, **kwargs):
-        instance = super(CategoryForm, self).save(commit=False)
-        self.fields['category_status'].initial.update(category=None)
-        self.cleaned_data['category_status'].update(category=instance.id)
-        return instance
+    # def save(self, *args, **kwargs):
+    #     instance = super(CategoryForm, self).save(commit=False)
+    #     self.fields['category_status'].initial.update(category=None)
+    #     self.cleaned_data['category_status'].update(category=instance.id)
+    #     return instance
 
-class CategoryAdmin(admin.ModelAdmin):
-    form = CategoryForm
+# class CategoryAdmin(admin.ModelAdmin):
+#     form = CategoryForm
 
 
 class Pet(models.Model):
@@ -85,8 +76,18 @@ class Pet(models.Model):
     pet_type = models.ForeignKey(PetType, on_delete=models.CASCADE, null=False)
     size = models.ForeignKey(Size, on_delete=models.CASCADE, null=False)
     gender = models.ForeignKey(Gender, on_delete=models.CASCADE, null=False)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
-    category_status = models.ForeignKey(CategoryStatus, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.CharField(
+        max_length=100,
+        choices=CATEGORIES,
+        blank=True,
+        null=True
+    )
+    category_status = models.CharField(
+        max_length=100,
+        choices=CATEGORIES_STATUS,
+        blank=True,
+        null=True
+    )
     state = models.CharField(max_length=1024, null=False)
     city = models.CharField(max_length=1024, null=False)
     contact_name = models.CharField(max_length=100, null=False)

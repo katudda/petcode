@@ -13,8 +13,8 @@ router.register(r'pet', views.PetViewSet)
 router.register(r'pet-type', views.PetTypeViewSet)
 router.register(r'pet-size', views.SizeViewSet)
 router.register(r'pet-gender', views.GenderViewSet)
-router.register(r'category', views.CategoryViewSet)
-router.register(r'category-status', views.CategoryStatusViewSet)
+# router.register(r'category', views.CategoryViewSet)
+# router.register(r'category-status', views.CategoryStatusViewSet)
 
 urlpatterns = [
     # Público - Não precisa passar Token
