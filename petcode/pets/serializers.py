@@ -4,6 +4,7 @@ from rest_framework.validators import UniqueValidator
 # from petcode.pets.models import Pet, PetType, Size, Gender, CategoryStatus, Category, Image
 from petcode.pets.models import Pet, PetType, CategoryStatus, Category, Image
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -38,7 +39,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ['image',]
+        fields = ['id', 'image']
 
 class PetSerializer(serializers.ModelSerializer):
     images = ImageSerializer(read_only=True, many=True)
