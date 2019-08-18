@@ -11,9 +11,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-# from petcode.pets.models import PetType, Size, Gender, Pet, CategoryStatus, Category
 from petcode.pets.models import Pet, PetType, CategoryStatus, Category, Image
-# from petcode.pets.serializers import UserSerializer, PetTypeSerializer, SizeSerializer, GenderSerializer, PetSerializer, CategorySerializer, CategoryStatusSerializer
 from petcode.pets.serializers import ImageSerializer, UserSerializer, PetTypeSerializer, PetSerializer, CategorySerializer, CategoryStatusSerializer
 
 from django.views.decorators.csrf import csrf_exempt
@@ -53,15 +51,6 @@ class PublicCreateOnly(permissions.IsAuthenticated):
 class PetTypeViewSet(viewsets.ModelViewSet):
     queryset = PetType.objects.all()
     serializer_class = PetTypeSerializer
-
-
-# class SizeViewSet(viewsets.ModelViewSet):
-#     queryset = Size.objects.all()
-#     serializer_class = SizeSerializer
-
-# class GenderViewSet(viewsets.ModelViewSet):
-#     queryset = Gender.objects.all()
-#     serializer_class = GenderSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()

@@ -15,17 +15,6 @@ class PetTypeSerializer(serializers.ModelSerializer):
         model = PetType
         fields = ['id', 'name']
 
-
-# class SizeSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Size
-#         fields = ['id', 'name']
-
-# class GenderSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Gender
-#         fields = ['id', 'name']
-
 class CategoryStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryStatus
