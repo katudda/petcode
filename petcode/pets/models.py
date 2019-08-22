@@ -86,7 +86,7 @@ class Pet(models.Model):
         null=True
     )
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, related_name='category')
-    category_status = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, related_name='category_status')
+    category_status = models.ForeignKey(CategoryStatus, on_delete=models.CASCADE, null=True, blank=True, related_name='category_status')
     state = models.CharField(max_length=1024, null=False)
     city = models.CharField(max_length=1024, null=False)
     contact_name = models.CharField(max_length=100, null=False)

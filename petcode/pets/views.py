@@ -53,6 +53,7 @@ class PetTypeViewSet(viewsets.ModelViewSet):
     serializer_class = PetTypeSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [PublicRetrieveAndListOnly]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     
@@ -69,7 +70,7 @@ class PetViewSet(viewsets.ModelViewSet):
     serializer_class = PetSerializer
     permission_classes = [PublicRetrieveAndListOnly]
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['category', 'user', 'name', 'gender', 'size', 'state', 'city', 'published_date']
+    filter_fields = ['category', 'category_status', 'user', 'name', 'gender', 'size', 'state', 'city', 'published_date']
 
 
 class UserViewSet(viewsets.ModelViewSet):
