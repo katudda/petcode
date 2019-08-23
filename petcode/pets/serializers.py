@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 # from petcode.pets.models import Pet, PetType, Size, Gender, CategoryStatus, Category, Image
-from petcode.pets.models import Pet, PetType, CategoryStatus, Category, Image
+from petcode.pets.models import Pet, PetType, CategoryStatus, Category, Image, PetStatusHistory
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -30,8 +30,16 @@ class ImageSerializer(serializers.ModelSerializer):
         model = Image
         fields = ['id', 'image']
 
+class PetStatusHistorySerializer(serializers.ModelSerializer):
+    category_status = CategoryStatusSerializer(read_only=True, many=False)
+
+    class Meta:
+        model = PetStatusHistory
+        fields = ['category_status', 'created']
+
 class PetSerializer(serializers.ModelSerializer):
     images = ImageSerializer(read_only=True, many=True)
+    status_history = PetStatusHistorySerializer(read_only=True, many=True)
     # category = CategorySerializer()
 
     class Meta:
@@ -47,6 +55,7 @@ class PetSerializer(serializers.ModelSerializer):
             'gender', 
             'category',
             'category_status', 
+            'status_history', 
             'state', 
             'city', 
             'contact_name',

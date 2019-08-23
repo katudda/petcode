@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.conf import settings
 from django import forms
 from django.contrib import admin
@@ -95,5 +96,18 @@ class Pet(models.Model):
     email = models.CharField(max_length=200, null=True, blank=True)
     published_date = models.DateTimeField(auto_now_add=True, blank=True)
 
+    def status_history(self):
+        return PetStatusHistory.objects.all().filter(pet=self).order_by('-created')
+ 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        PetStatusHistory.objects.create(category_status=self.category_status, pet=self)
+
+
     def __str__(self):
         return self.name
+
+class PetStatusHistory(models.Model):
+        category_status = models.ForeignKey(CategoryStatus, on_delete=models.CASCADE, null=True, blank=True)
+        pet = models.ForeignKey(Pet, on_delete=models.CASCADE, null=True, blank=True)
+        created = models.DateTimeField(auto_now_add=True, blank=True)
