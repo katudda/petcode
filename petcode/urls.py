@@ -4,11 +4,12 @@ from django.conf import settings
 from django.urls import include, path
 from rest_framework import routers
 from petcode.pets import views
+from petcode.users import views as user_views
 
 router = routers.DefaultRouter()
 
 # Rotas da API
-router.register(r'users', views.UserViewSet)
+router.register(r'users', user_views.UserViewSet)
 router.register(r'pet', views.PetViewSet)
 router.register(r'pet-type', views.PetTypeViewSet)
 # router.register(r'pet-size', views.SizeViewSet)
