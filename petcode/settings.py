@@ -16,6 +16,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'users.User'
+
+AUTHENTICATION_BACKENDS = ['path.to.auth.module.EmailBackend']
 
 # Application definition
 
@@ -26,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'petcode.users',
     'petcode.pets',
     'rest_framework',
     'rest_framework.authtoken',
