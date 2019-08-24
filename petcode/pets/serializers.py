@@ -1,14 +1,9 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 # from petcode.pets.models import Pet, PetType, Size, Gender, CategoryStatus, Category, Image
 from petcode.pets.models import Pet, PetType, CategoryStatus, Category, Image
+from petcode.users.models import User
 
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email']
 
 class PetTypeSerializer(serializers.ModelSerializer):
     class Meta:
