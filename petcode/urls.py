@@ -21,7 +21,7 @@ router.register(r'pet-images', views.ImageViewSet)
 urlpatterns = [
     # Público - Não precisa passar Token
     path('admin/', admin.site.urls),
-
+    
     # Privados - Precisa passar Token ( API )
     path('api/', include((router.urls, 'api'), namespace='instance_name')),
     path('api/pet/<int:pk>/image-upload', views.ImageUploadView.as_view()),
