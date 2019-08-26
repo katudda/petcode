@@ -16,6 +16,10 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.01', 'herokuapp.com']
 
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8000',
+)
+
 
 # Application definition
 
