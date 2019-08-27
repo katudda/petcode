@@ -26,7 +26,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], permission_classes=[AllowAny])
     def login(self, request):
-        import ipdb ; ipdb.set_trace()
         email = request.data.get("email")
         password = request.data.get("password")
         if email is None or password is None:
