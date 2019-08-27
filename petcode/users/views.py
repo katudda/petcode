@@ -42,3 +42,15 @@ class UserViewSet(viewsets.ModelViewSet):
             response['token'] = token.key
             return Response(response,
                             status=HTTP_200_OK)
+
+    @action(detail=True, methods=['post'], permission_classes=[PublicCreateOnly])
+    def set_password(self, request, pk=None):
+        user = self.get_object()
+        serializer = PasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            user.set_password(serializer.data['password'])
+            user.save()
+            return Response({'status': 'password set'})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
