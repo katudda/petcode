@@ -18,7 +18,8 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.User'
 
-AUTHENTICATION_BACKENDS = ['path.to.auth.module.EmailBackend']
+AUTHENTICATION_BACKEND = 'petcode.users.authentication.EmailBackend'
+AUTHENTICATION_BACKENDS = (AUTHENTICATION_BACKEND, )
 
 # Application definition
 
