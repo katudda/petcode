@@ -20,6 +20,10 @@ AUTH_USER_MODEL = 'users.User'
 
 AUTHENTICATION_BACKEND = 'petcode.users.authentication.EmailBackend'
 AUTHENTICATION_BACKENDS = (AUTHENTICATION_BACKEND, )
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8000',
+)
+
 
 # Application definition
 
