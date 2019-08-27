@@ -3,7 +3,6 @@ from django import forms
 from django.contrib import admin
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
 from .constants import SIZE, GENDER, CATEGORIES, CATEGORIES_STATUS
@@ -84,7 +83,7 @@ class Image(models.Model):
 
 
 class Pet(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     images = models.ManyToManyField(Image, blank=True)
     name = models.CharField(max_length=200, null=False)
     description = models.TextField(null=True, blank=True)
