@@ -15,6 +15,7 @@ router.register(r'pet-type', views.PetTypeViewSet)
 router.register(r'category', views.CategoryViewSet)
 router.register(r'category-status', views.CategoryStatusViewSet)
 router.register(r'pet-images', views.ImageViewSet)
+router.register(r'pet-status-history', views.PetStatusHistoryView)
 
 urlpatterns = [
     # Público - Não precisa passar Token

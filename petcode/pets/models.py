@@ -100,8 +100,13 @@ class Pet(models.Model):
  
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        PetStatusHistory.objects.create(category_status=self.category_status, pet=self)
-
+        import ipdb; ipdb.set_trace();
+        pet_status_history = PetStatusHistory.objects.all()
+        pet_status_history_ids = list(map(lambda x: x.category_status_id, pet_status_history))
+        has_already_this_status = self.category_status.id in pet_status_history_ids
+        if not has_already_this_status:
+            return PetStatusHistory.objects.create(category_status=self.category_status, pet=self)
+        return
 
     def __str__(self):
         return self.name

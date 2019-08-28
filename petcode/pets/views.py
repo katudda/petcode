@@ -10,8 +10,15 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from petcode.pets.models import Pet, PetType, CategoryStatus, Category, Image
-from petcode.pets.serializers import ImageSerializer, PetTypeSerializer, PetSerializer, CategorySerializer, CategoryStatusSerializer
+from petcode.pets.models import Pet, PetType, CategoryStatus, Category, Image, PetStatusHistory
+from petcode.pets.serializers import (
+    ImageSerializer,
+    PetTypeSerializer,
+    PetSerializer,
+    CategorySerializer,
+    CategoryStatusSerializer,
+    PetStatusHistorySerializer,
+)
 from petcode.users.serializers import UserSerializer
 
 from django.views.decorators.csrf import csrf_exempt
@@ -85,3 +92,8 @@ class ImageUploadView(APIView):
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PetStatusHistoryView(viewsets.ModelViewSet):
+    queryset = PetStatusHistory.objects.all()
+    serializer_class = PetStatusHistorySerializer
