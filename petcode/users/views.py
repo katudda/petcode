@@ -40,5 +40,6 @@ class UserViewSet(viewsets.ModelViewSet):
             response = {}
             response['email'] = email
             response['token'] = token.key
+            response['id'] = user.id
             return Response(response,
                             status=HTTP_200_OK)
