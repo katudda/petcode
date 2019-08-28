@@ -17,7 +17,6 @@ from petcode.pets.serializers import (
     PetSerializer,
     CategorySerializer,
     CategoryStatusSerializer,
-    PetStatusHistorySerializer,
 )
 from petcode.users.serializers import UserSerializer
 
@@ -92,8 +91,3 @@ class ImageUploadView(APIView):
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class PetStatusHistoryView(viewsets.ModelViewSet):
-    queryset = PetStatusHistory.objects.all()
-    serializer_class = PetStatusHistorySerializer
