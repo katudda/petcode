@@ -38,8 +38,7 @@ INSTALLED_APPS = [
     'petcode.pets',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
-    'django_rest_passwordreset',
+    'corsheaders'   
 ]
 
 REST_FRAMEWORK = {

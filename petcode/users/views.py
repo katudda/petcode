@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from rest_framework import viewsets
-from .serializers import UserSerializer, PasswordSerializer
+from .serializers import UserSerializer
 from rest_framework.permissions import AllowAny
 from .permissions import PublicCreateOnly
 from rest_framework.decorators import action
