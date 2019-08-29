@@ -10,18 +10,18 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-# from petcode.pets.models import PetType, Size, Gender, Pet, CategoryStatus, Category
 from petcode.pets.models import Pet, PetType, CategoryStatus, Category, Image
-# from petcode.pets.serializers import UserSerializer, PetTypeSerializer, SizeSerializer, GenderSerializer, PetSerializer, CategorySerializer, CategoryStatusSerializer
 from petcode.pets.serializers import ImageSerializer, PetTypeSerializer, PetSerializer, CategorySerializer, CategoryStatusSerializer
 from petcode.users.serializers import UserSerializer
 
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.parsers import FileUploadParser
 
+
 ############################################################################
-# Permissoes customizadas
+# Permissões customizadas
 ############################################################################
 class PublicRetrieveAndListOnly(permissions.IsAuthenticated):
     """
@@ -45,25 +45,15 @@ class PublicCreateOnly(permissions.IsAuthenticated):
             return bool(request.user and request.user.is_authenticated)
 
 ############################################################################
-# FIM Permissoes customizadas
+# FIM Permissões customizadas
 ############################################################################
-
-
 
 class PetTypeViewSet(viewsets.ModelViewSet):
     queryset = PetType.objects.all()
     serializer_class = PetTypeSerializer
 
-
-# class SizeViewSet(viewsets.ModelViewSet):
-#     queryset = Size.objects.all()
-#     serializer_class = SizeSerializer
-
-# class GenderViewSet(viewsets.ModelViewSet):
-#     queryset = Gender.objects.all()
-#     serializer_class = GenderSerializer
-
 class CategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [PublicRetrieveAndListOnly]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     
@@ -75,12 +65,22 @@ class ImageViewSet(viewsets.ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
 
-class PetViewSet(viewsets.ModelViewSet):
+class PetViewSet(viewsets.ModelViewSet, generics.ListAPIView):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
     permission_classes = [PublicRetrieveAndListOnly]
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['category', 'user', 'name', 'gender', 'size', 'state', 'city', 'published_date']
+    filter_fields = ['category', 'category_status', 'user', 'name', 'gender', 'size', 'state', 'city', 'published_date']
+
+    def create(self, request):
+        request.data['user'] = request.user.id
+        return super(PetViewSet, self).create(request)
+
+    @action(detail=False, methods=['get'])
+    def my(self, request):
+        queryset = self.get_queryset().filter(user=request.user.id)
+        serializer = PetSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class ImageUploadView(APIView):
