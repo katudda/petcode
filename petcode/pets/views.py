@@ -71,6 +71,9 @@ class PetViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['category', 'category_status', 'user', 'name', 'gender', 'size', 'state', 'city', 'published_date']
 
+    def create(self, request):
+        request.data['user'] = request.user.id
+        return super(PetViewSet, self).create(request)
 
 class ImageUploadView(APIView):
     parser_class = (FileUploadParser,)
