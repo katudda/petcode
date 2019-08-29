@@ -102,8 +102,8 @@ class Pet(models.Model):
         super().save(*args, **kwargs)
         import ipdb; ipdb.set_trace();
         pet_status_history = PetStatusHistory.objects.all()
-        pet_status_history_ids = list(map(lambda x: x.category_status_id, pet_status_history))
-        has_already_this_status = self.category_status.id in pet_status_history_ids
+        last_pet_status_history_id = pet_status_history.last().category_status_id
+        has_already_this_status = self.category_status_id == last_pet_status_history_id
         if not has_already_this_status:
             return PetStatusHistory.objects.create(category_status=self.category_status, pet=self)
         return
