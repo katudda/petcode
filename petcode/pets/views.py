@@ -16,6 +16,7 @@ from petcode.users.serializers import UserSerializer
 
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.parsers import FileUploadParser
 
 
@@ -64,7 +65,7 @@ class ImageViewSet(viewsets.ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
 
-class PetViewSet(viewsets.ModelViewSet):
+class PetViewSet(viewsets.ModelViewSet, generics.ListAPIView):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
     permission_classes = [PublicRetrieveAndListOnly]
@@ -74,6 +75,13 @@ class PetViewSet(viewsets.ModelViewSet):
     def create(self, request):
         request.data['user'] = request.user.id
         return super(PetViewSet, self).create(request)
+
+    @action(detail=False, methods=['get'])
+    def my(self, request):
+        queryset = self.get_queryset().filter(user=request.user.id)
+        serializer = PetSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class ImageUploadView(APIView):
     parser_class = (FileUploadParser,)
