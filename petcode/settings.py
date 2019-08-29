@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'petcode.pets',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
+    'corsheaders'   
 ]
 
 REST_FRAMEWORK = {

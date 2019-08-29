@@ -56,5 +56,4 @@ class PetSerializer(serializers.ModelSerializer):
             'email',
             'published_date'
         ]
-
         
